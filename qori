@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KASIRIN - Kedai Kopi & Minuman</title>
+<style>
+:root{--bg:#FAF5FF;--card:#fff;--ink:#1e1b2e;--mute:#6b6880;--line:#E9D5FF;--soft:#F3E8FF;--pri:#9333EA;--pri2:#7E22CE;--dark:#581C87;--pink:#EC4899;--ok:#059669;--bad:#E11D48;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#150f20;--card:#201733;--ink:#f1eafc;--mute:#a79cc2;--line:#3b2a5c;--soft:#2b1f45;--ok:#34d399;--bad:#fb7185}}
+:root[data-theme="dark"]{--bg:#150f20;--card:#201733;--ink:#f1eafc;--mute:#a79cc2;--line:#3b2a5c;--soft:#2b1f45;--ok:#34d399;--bad:#fb7185}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;font-size:14px}
+button{font:inherit;cursor:pointer;border:0;color:inherit}input,select{font:inherit;color:var(--ink)}
+header{background:var(--dark);color:#fff;padding:10px 14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;position:sticky;top:env(safe-area-inset-top,0px);z-index:20}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--dark);z-index:21}
+h1{margin:0;font-size:20px;letter-spacing:1px}h1 span{color:var(--pink)}
+.sub{font-size:11px;color:#d8b4fe}
+nav{display:flex;background:rgba(0,0,0,.25);border-radius:12px;padding:3px}
+nav button{background:none;padding:7px 12px;border-radius:9px;font-weight:600;color:#d8b4fe}
+nav button.on{background:#fff;color:var(--dark)}
+main{max-width:1200px;margin:0 auto;padding:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px}
+.pos{display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:900px){.pos{grid-template-columns:1fr 360px}}
+.bar{padding:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.bar input{flex:1;min-width:160px;padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--soft)}
+.pills{display:flex;gap:6px;overflow-x:auto;max-width:100%}
+.pill{background:var(--soft);padding:7px 12px;border-radius:99px;white-space:nowrap;font-weight:600;font-size:12px}
+.pill.on{background:var(--pri);color:#fff}
+.grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+.prod{padding:12px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;display:flex;flex-direction:column;gap:4px}
+.prod:hover{border-color:var(--pri)}.prod[disabled]{opacity:.45;cursor:not-allowed}
+.prod .e{font-size:30px}.prod b{font-size:13px}.prod .p{color:var(--pri2);font-weight:700}.prod small{color:var(--mute)}
+.cart{display:flex;flex-direction:column;overflow:hidden}
+.ch{padding:12px 14px;background:var(--soft);display:flex;justify-content:space-between;align-items:center}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:10px}
+.seg button{padding:7px;border-radius:9px;background:var(--card);border:1px solid var(--line);font-weight:700;font-size:12px}
+.seg button.on{background:var(--pri);color:#fff;border-color:var(--pri)}
+.items{padding:10px 14px;min-height:200px;max-height:340px;overflow-y:auto;display:flex;flex-direction:column;gap:10px}
+.it{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.qty{display:flex;align-items:center;gap:6px}
+.qty button{width:26px;height:26px;border-radius:8px;background:var(--soft);font-weight:700}
+.empty{color:var(--mute);text-align:center;padding:30px 0}
+.sum{padding:14px;background:var(--soft);display:grid;gap:6px}
+.row{display:flex;justify-content:space-between}
+.tot{font-size:18px;font-weight:800;border-top:1px dashed var(--pri);padding-top:8px}.tot span:last-child{color:var(--pri2)}
+.btn{background:linear-gradient(90deg,var(--pri),var(--pink));color:#fff;font-weight:700;padding:12px;border-radius:12px;width:100%}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn2{background:var(--pri);color:#fff;font-weight:600;padding:9px 14px;border-radius:10px}
+.lnk{background:none;color:var(--bad);font-weight:600;font-size:12px}
+.tbl{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:560px}
+th{text-align:left;font-size:11px;text-transform:uppercase;color:var(--mute);background:var(--soft);padding:10px 12px}
+td{padding:10px 12px;border-top:1px solid var(--line);vertical-align:top}
+.stats{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-bottom:14px}
+.stat{padding:16px}.stat small{color:var(--mute)}.stat h3{margin:6px 0 0;font-size:22px}
+.low{color:var(--bad);font-weight:700}
+.modal{position:fixed;inset:0;background:rgba(15,10,30,.65);display:none;align-items:center;justify-content:center;padding:14px;z-index:50}
+.modal.open{display:flex}
+.box{background:var(--card);border-radius:20px;max-width:420px;width:100%;max-height:92vh;overflow-y:auto}
+.mh{background:var(--dark);color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
+.mh button{background:rgba(255,255,255,.2);width:30px;height:30px;border-radius:99px;color:#fff}
+.mb{padding:18px;display:grid;gap:12px}
+.mb label{font-size:11px;font-weight:700;text-transform:uppercase;color:var(--mute);display:block;margin-bottom:4px}
+.mb input,.mb select{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg)}
+.pm{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.pm button{padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--card);font-weight:600}
+.pm button.on{border:2px solid var(--pri);background:var(--soft)}
+.quick{display:flex;gap:6px;flex-wrap:wrap}.quick button{background:var(--soft);padding:6px 10px;border-radius:8px;font-weight:600;font-size:12px}
+.paper{background:#fff;color:#222;font-family:ui-monospace,Menlo,monospace;font-size:12px;padding:20px;border-radius:12px 12px 0 0;max-width:360px;width:100%}
+.paper .c{text-align:center;border-bottom:1px dashed #aaa;padding-bottom:10px}
+.paper .s{padding:8px 0;border-bottom:1px dashed #aaa;display:grid;gap:4px}
+.paper .row{gap:8px}
+@media print{body *{visibility:hidden}#receipt,#receipt *{visibility:visible}#receipt{position:absolute;inset:0;background:none}.noprint{display:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>KASIRIN<span>.</span></h1><div class="sub">Coffee &amp; Beverage POS</div></div>
+  <nav>
+    <button id="t-pos" class="on" onclick="tab('pos')">🧾 Kasir</button>
+    <button id="t-products" onclick="tab('products')">☕ Produk</button>
+    <button id="t-reports" onclick="tab('reports')">📈 Laporan</button>
+  </nav>
+</header>
+<main>
+<!-- KASIR -->
+<div id="v-pos">
+ <div class="pos">
+  <section>
+   <div class="card bar"><input id="q" oninput="renderGrid()" placeholder="Cari kopi, tea, pastry..."><div class="pills" id="pills"></div></div>
+   <div class="grid" id="grid"></div>
+  </section>
+  <section class="card cart">
+   <div class="ch"><div><b>🛍️ Pesanan Saat Ini</b><div class="sub" style="color:var(--pri2)" id="cnt">0 menu dipilih</div></div><button class="lnk" onclick="clearCart()">Kosongkan</button></div>
+   <div class="seg"><button id="ot-Dine In" class="on" onclick="setType('Dine In')">Dine In</button><button id="ot-Take Away" onclick="setType('Take Away')">Take Away</button></div>
+   <div class="items" id="items"></div>
+   <div class="sum">
+    <div class="row"><span>Subtotal</span><b id="sub">Rp 0</b></div>
+    <div class="row"><span>Pajak PB1 (10%)</span><b id="tax">Rp 0</b></div>
+    <div class="row tot"><span>Total Tagihan</span><span id="tot">Rp 0</span></div>
+    <button class="btn" id="goPay" onclick="openPay()" disabled>Lanjut Pembayaran</button>
+   </div>
+  </section>
+ </div>
+</div>
+<!-- PRODUK -->
+<div id="v-products" hidden>
+ <div class="card bar" style="justify-content:space-between"><div><b>Katalog Produk &amp; Stok</b><div class="sub" style="color:var(--mute)">Kelola menu kopi, non-kopi, dan snack.</div></div><button class="btn2" onclick="openProd()">+ Tambah Menu</button></div>
+ <div class="card tbl"><table><thead><tr><th>Item</th><th>Kategori</th><th>Harga</th><th>Stok</th><th>Aksi</th></tr></thead><tbody id="ptb"></tbody></table></div>
+</div>
+<!-- LAPORAN -->
+<div id="v-reports" hidden>
+ <div class="stats">
+  <div class="card stat"><small>Total Pendapatan</small><h3 id="rRev">Rp 0</h3></div>
+  <div class="card stat"><small>Total Transaksi</small><h3 id="rTrx">0</h3></div>
+  <div class="card stat"><small>Cup/Pcs Terjual</small><h3 id="rQty">0</h3></div>
+  <div class="card stat"><small>Best Seller</small><h3 id="rTop" style="font-size:16px">-</h3></div>
+ </div>
+ <div class="card"><div class="ch"><b>Riwayat Transaksi</b><button class="lnk" onclick="resetTrx()">Hapus riwayat</button></div>
+ <div class="tbl"><table><thead><tr><th>No. Struk</th><th>Waktu</th><th>Tipe</th><th>Rincian</th><th>Metode</th><th>Total</th><th>Struk</th></tr></thead><tbody id="ttb"></tbody></table></div></div>
+</div>
+</main>
+
+<!-- MODAL BAYAR -->
+<div class="modal" id="payM"><div class="box">
+ <div class="mh"><b>Konfirmasi Pembayaran</b><button onclick="closeM('payM')">✕</button></div>
+ <div class="mb">
+  <div class="row card" style="padding:12px;background:var(--soft)"><span>Total dibayar</span><b id="payTot" style="font-size:20px;color:var(--pri2)">Rp 0</b></div>
+  <div><label>Metode</label><div class="pm"><button id="pm-Tunai" class="on" onclick="setPay('Tunai')">💵 Tunai</button><button id="pm-QRIS" onclick="setPay('QRIS')">📱 QRIS</button><button id="pm-Kartu" onclick="setPay('Kartu')">💳 Kartu</button></div></div>
+  <div id="cashBox" style="display:grid;gap:10px">
+   <div><label>Nominal diterima (Rp)</label><input type="number" id="cash" oninput="calcChg()" placeholder="0"></div>
+   <div class="quick" id="quick"></div>
+   <div class="row"><span>Kembalian</span><b id="chg" style="color:var(--ok)">Rp 0</b></div>
+  </div>
+  <div id="payErr" class="low"></div>
+  <button class="btn" onclick="finish()">Selesaikan &amp; Cetak Struk</button>
+ </div>
+</div></div>
+
+<!-- MODAL PRODUK -->
+<div class="modal" id="prodM"><div class="box">
+ <div class="mh"><b id="pmTitle">Tambah Menu</b><button onclick="closeM('prodM')">✕</button></div>
+ <div class="mb">
+  <div><label>Nama</label><input id="fName"></div>
+  <div><label>Kategori</label><select id="fCat"><option>Kopi</option><option>Non-Kopi</option><option>Pastry</option></select></div>
+  <div><label>Harga (Rp)</label><input type="number" id="fPrice"></div>
+  <div><label>Stok</label><input type="number" id="fStock"></div>
+  <div><label>Emoji</label><input id="fEmoji" maxlength="4" placeholder="☕"></div>
+  <button class="btn" onclick="saveProd()">Simpan</button>
+ </div>
+</div></div>
+
+<!-- MODAL STRUK -->
+<div class="modal" id="receipt"><div style="max-width:360px;width:100%">
+ <div class="paper" id="rBody"></div>
+ <div class="noprint" style="display:flex;gap:8px;margin-top:10px"><button class="btn2" style="flex:1" onclick="window.print()">🖨️ Cetak</button><button class="btn2" style="flex:1;background:var(--card);color:var(--ink);border:1px solid var(--line)" onclick="closeM('receipt')">Tutup</button></div>
+</div></div>
+
+<script>
+const KEY_P='kasirin_products_v1',KEY_T='kasirin_trx_v1';
+const DEF=[
+{id:1,name:'Espresso',cat:'Kopi',price:18000,stock:50,emoji:'☕'},
+{id:2,name:'Americano',cat:'Kopi',price:22000,stock:50,emoji:'☕'},
+{id:3,name:'Caffe Latte',cat:'Kopi',price:28000,stock:40,emoji:'🥛'},
+{id:4,name:'Kopi Susu Gula Aren',cat:'Kopi',price:25000,stock:60,emoji:'🧋'},
+{id:5,name:'Cappuccino',cat:'Kopi',price:28000,stock:40,emoji:'☕'},
+{id:6,name:'Matcha Latte',cat:'Non-Kopi',price:30000,stock:30,emoji:'🍵'},
+{id:7,name:'Lemon Tea',cat:'Non-Kopi',price:18000,stock:35,emoji:'🍋'},
+{id:8,name:'Coklat Panas',cat:'Non-Kopi',price:26000,stock:25,emoji:'🍫'},
+{id:9,name:'Croissant',cat:'Pastry',price:22000,stock:20,emoji:'🥐'},
+{id:10,name:'Choco Cookies',cat:'Pastry',price:15000,stock:30,emoji:'🍪'}];
+let products=[],trx=[],cart={},orderType='Dine In',cat='Semua',payM='Tunai',editId=null,total=0;
+function load(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+products=load(KEY_P,DEF);trx=load(KEY_T,[]);
+const rp=n=>'Rp '+Math.round(n).toLocaleString('id-ID');
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function tab(t){['pos','products','reports'].forEach(x=>{$('v-'+x).hidden=x!==t;$('t-'+x).classList.toggle('on',x===t)});
+ if(t==='products')renderProd();if(t==='reports')renderRep();if(t==='pos')renderGrid()}
+
+/* KASIR */
+function renderPills(){const cs=['Semua',...new Set(products.map(p=>p.cat))];
+ $('pills').innerHTML=cs.map(c=>`<button class="pill ${c===cat?'on':''}" onclick="setCat('${esc(c)}')">${esc(c)}</button>`).join('')}
+function setCat(c){cat=c;renderPills();renderGrid()}
+function renderGrid(){renderPills;const q=$('q').value.toLowerCase();
+ const l=products.filter(p=>(cat==='Semua'||p.cat===cat)&&p.name.toLowerCase().includes(q));
+ $('grid').innerHTML=l.length?l.map(p=>{const inC=cart[p.id]||0,out=p.stock-inC<=0;
+ return `<button class="prod" ${out?'disabled':''} onclick="add(${p.id})"><span class="e">${esc(p.emoji||'☕')}</span><b>${esc(p.name)}</b><span class="p">${rp(p.price)}</span><small>${out?'Stok habis':'Stok: '+(p.stock-inC)}</small></button>`}).join(''):'<div class="empty">Menu tidak ditemukan</div>'}
+function add(id){const p=products.find(x=>x.id===id);if((cart[id]||0)<p.stock){cart[id]=(cart[id]||0)+1;renderCart();renderGrid()}}
+function chg(id,d){const p=products.find(x=>x.id===id);const n=(cart[id]||0)+d;
+ if(n<=0)delete cart[id];else if(n<=p.stock)cart[id]=n;renderCart();renderGrid()}
+function clearCart(){cart={};renderCart();renderGrid()}
+function setType(t){orderType=t;['Dine In','Take Away'].forEach(x=>$('ot-'+x).classList.toggle('on',x===t))}
+function calc(){let s=0,n=0;for(const id in cart){const p=products.find(x=>x.id==id);s+=p.price*cart[id];n+=cart[id]}
+ const tax=s*0.1;return{s,n,tax,t:s+tax}}
+function renderCart(){const c=calc(),ids=Object.keys(cart);
+ $('cnt').textContent=c.n+' menu dipilih';
+ $('items').innerHTML=ids.length?ids.map(id=>{const p=products.find(x=>x.id==id);
+ return `<div class="it"><div><b>${esc(p.name)}</b><div class="sub" style="color:var(--mute)">${rp(p.price)}</div></div><div class="qty"><button onclick="chg(${p.id},-1)">−</button><b>${cart[id]}</b><button onclick="chg(${p.id},1)">+</button></div></div>`}).join(''):'<div class="empty">Keranjang masih kosong.<br>Pilih menu di sebelah kiri.</div>';
+ $('sub').textContent=rp(c.s);$('tax').textContent=rp(c.tax);$('tot').textContent=rp(c.t);
+ $('goPay').disabled=!ids.length}
+
+/* PEMBAYARAN */
+function openPay(){total=calc().t;$('payTot').textContent=rp(total);$('cash').value='';$('payErr').textContent='';setPay('Tunai');
+ const q=[total,Math.ceil(total/50000)*50000,Math.ceil(total/100000)*100000].filter((v,i,a)=>a.indexOf(v)===i);
+ $('quick').innerHTML=q.map(v=>`<button onclick="$('cash').value=${v};calcChg()">${rp(v)}</button>`).join('');
+ calcChg();$('payM').classList.add('open')}
+function setPay(m){payM=m;['Tunai','QRIS','Kartu'].forEach(x=>$('pm-'+x).classList.toggle('on',x===m));$('cashBox').style.display=m==='Tunai'?'grid':'none'}
+function calcChg(){const v=+$('cash').value||0;$('chg').textContent=rp(Math.max(0,v-total))}
+function closeM(id){$(id).classList.remove('open')}
+function finish(){
+ let paid=total;
+ if(payM==='Tunai'){paid=+$('cash').value||0;if(paid<Math.round(total)){$('payErr').textContent='Uang diterima kurang dari total tagihan.';return}}
+ const c=calc(),now=new Date();
+ const lines=Object.keys(cart).map(id=>{const p=products.find(x=>x.id==id);p.stock-=cart[id];return{id:p.id,name:p.name,price:p.price,qty:cart[id]}});
+ const t={no:'TRX-'+String(trx.length+1).padStart(4,'0'),ts:now.getTime(),type:orderType,method:payM,lines,sub:c.s,tax:c.tax,total:c.t,paid,change:Math.max(0,paid-c.t)};
+ trx.unshift(t);save(KEY_P,products);save(KEY_T,trx);
+ cart={};renderCart();renderGrid();closeM('payM');showReceipt(t)}
+
+/* STRUK */
+function showReceipt(t){const d=new Date(t.ts).toLocaleString('id-ID',{dateStyle:'short',timeStyle:'short'});
+ $('rBody').innerHTML=`<div class="c"><b style="font-size:15px">KASIRIN COFFEE &amp; BEV</b><br>Jl. Senopati No. 88, Jakarta Selatan<br>Telp: 0812-3456-7890</div>
+ <div class="s"><div class="row"><span>No. Struk</span><b>${t.no}</b></div><div class="row"><span>Tanggal</span><span>${d}</span></div><div class="row"><span>Tipe</span><span>${t.type}</span></div></div>
+ <div class="s">${t.lines.map(l=>`<div class="row"><span>${l.qty}x ${esc(l.name)}</span><span>${rp(l.price*l.qty)}</span></div>`).join('')}</div>
+ <div class="s"><div class="row"><span>Subtotal</span><span>${rp(t.sub)}</span></div><div class="row"><span>PB1 10%</span><span>${rp(t.tax)}</span></div><div class="row"><b>TOTAL</b><b>${rp(t.total)}</b></div>
+ <div class="row"><span>Bayar (${t.method})</span><span>${rp(t.paid)}</span></div><div class="row"><span>Kembali</span><span>${rp(t.change)}</span></div></div>
+ <div class="c" style="border:0;padding-top:10px">Terima kasih! Selamat menikmati ☕</div>`;
+ $('receipt').classList.add('open')}
+function showTrx(i){showReceipt(trx[i])}
+
+/* PRODUK */
+function renderProd(){$('ptb').innerHTML=products.map(p=>`<tr><td>${esc(p.emoji||'')} <b>${esc(p.name)}</b></td><td>${esc(p.cat)}</td><td>${rp(p.price)}</td><td class="${p.stock<=5?'low':''}">${p.stock}${p.stock<=5?' (menipis)':''}</td><td><button class="lnk" style="color:var(--pri2)" onclick="openProd(${p.id})">Edit</button> <button class="lnk" onclick="delProd(${p.id})">Hapus</button></td></tr>`).join('')||'<tr><td colspan="5" class="empty">Belum ada produk</td></tr>'}
+function openProd(id){editId=id||null;const p=products.find(x=>x.id===id)||{name:'',cat:'Kopi',price:'',stock:'',emoji:''};
+ $('pmTitle').textContent=id?'Edit Menu':'Tambah Menu';$('fName').value=p.name;$('fCat').value=p.cat;$('fPrice').value=p.price;$('fStock').value=p.stock;$('fEmoji').value=p.emoji;$('prodM').classList.add('open')}
+function saveProd(){const name=$('fName').value.trim(),price=+$('fPrice').value,stock=+$('fStock').value;
+ if(!name||price<=0||stock<0)return;
+ const o={name,cat:$('fCat').value,price,stock,emoji:$('fEmoji').value.trim()||'☕'};
+ if(editId)Object.assign(products.find(x=>x.id===editId),o);else products.push({id:Date.now(),...o});
+ save(KEY_P,products);closeM('prodM');renderProd();renderPills()}
+function delProd(id){if(!confirm('Hapus menu ini?'))return;products=products.filter(p=>p.id!==id);delete cart[id];save(KEY_P,products);renderProd();renderCart()}
+
+/* LAPORAN */
+function renderRep(){const rev=trx.reduce((a,t)=>a+t.total,0),q={};let n=0;
+ trx.forEach(t=>t.lines.forEach(l=>{q[l.name]=(q[l.name]||0)+l.qty;n+=l.qty}));
+ const top=Object.entries(q).sort((a,b)=>b[1]-a[1])[0];
+ $('rRev').textContent=rp(rev);$('rTrx').textContent=trx.length;$('rQty').textContent=n;
+ $('rTop').textContent=top?top[0]+' ('+top[1]+')':'-';
+ $('ttb').innerHTML=trx.map((t,i)=>`<tr><td><b>${t.no}</b></td><td>${new Date(t.ts).toLocaleString('id-ID',{dateStyle:'short',timeStyle:'short'})}</td><td>${t.type}</td><td>${t.lines.map(l=>l.qty+'x '+esc(l.name)).join(', ')}</td><td>${t.method}</td><td><b>${rp(t.total)}</b></td><td><button class="lnk" style="color:var(--pri2)" onclick="showTrx(${i})">Lihat</button></td></tr>`).join('')||'<tr><td colspan="7" class="empty">Belum ada transaksi</td></tr>'}
+function resetTrx(){if(!confirm('Hapus semua riwayat transaksi?'))return;trx=[];save(KEY_T,trx);renderRep()}
+
+renderPills();renderGrid();renderCart();
+</script>
+</body>
+</html>
